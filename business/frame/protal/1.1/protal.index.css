@@ -1,0 +1,55 @@
+body, div, a, span, i {
+	margin: 0px;
+	padding: 0px;
+}
+a {
+	text-decoration: none;
+}
+
+.right-icons {
+	position: absolute;
+	z-index: 9999;
+	top: 30%;
+	right: 0;
+}
+
+.state {
+	display: none;
+}
+.right-icons .text-div a {
+	display: block;
+	font-size: 13px;
+	width: 20px;
+	text-align: center;
+	color: #fff;
+	word-wrap: break-word;
+	word-break: normal;
+	background: #FC7315;
+	padding: 10px 0;
+}
+#span {
+	font-size: 13px;
+	text-align: center;
+	color: #fff;
+	background: #FC7315;
+}
+
+
+.right-icons .icons-div a {
+	display: block;
+	color: #FC7315;
+	width: 50px;
+	height: 32px;
+	text-align: center;
+	line-height: 31px;
+	font-size: 18px;
+	background: transparent;
+	overflow: hidden;
+	margin-top: -1px;
+}
+
+.right-icons . a:hover {
+	color: #fff;
+	font-size: 13px;
+	background: #FC7315;
+}

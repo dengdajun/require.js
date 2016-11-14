@@ -1,0 +1,104 @@
+@CHARSET "utf-8";
+
+body {
+	margin: 0;
+	pading: 0;
+	text-align: left;
+	font-family: Arial, sans-serif, Helvetica, Tahoma;
+	font-size: 12px;
+	line-height: 1.5;
+	color: black;
+	background-image: url(img/bg.png);
+}
+
+.node {
+	width: 70px;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid #fff;
+}
+
+.mover {
+	border: 1px solid #ddd;
+	background-color: #ddd;
+}
+
+.selected {
+	background-color: #ddd;
+}
+
+.state {
+	
+}
+
+#myflow_props table {
+	
+}
+
+#myflow_props th {
+	letter-spacing: 2px;
+	text-align: left;
+	padding: 6px;
+	background: #ddd;
+}
+
+#myflow_props td {
+	background: #fff;
+	padding: 6px;
+}
+
+#pointer {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#path {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#task {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#state {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+#myflow_props {
+	width: 280px!important;
+}
+#myflow_props th {
+	width: 100px!important;
+}
+#myflow_props .editor {
+	margin: -5px -5px;
+}
+
+#myflow_props input, #myflow_props select {
+	border: none;
+	height: 25px;
+	width: 100%;
+	border: 1px solid #000;
+	
+}
+
+.select-popup {
+	position: relative;
+}
+
+.select-popup input.readonly {
+	margin-right: 50px;
+}
+
+.select-popup button {
+	position: absolute;
+	top: 0;
+	right: -4px;
+	height: 29px;
+	background-color: #fff;
+	border: 1px solid #000;
+	color: #333;
+	background-color: #fff;
+}

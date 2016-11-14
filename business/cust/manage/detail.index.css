@@ -1,0 +1,184 @@
+/* 瀹㈡埛鍩烘湰淇℃伅 */
+.inputs{
+    padding-left: 5px;
+    padding-right: 5px;
+    outline: none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
+.custom-info .loan-info-box .boot-box{
+    padding: 0px;
+}
+.custom-info .have-padding{
+    padding: 4px;
+}
+.custom-info .custom-base-info{
+    text-align: center;
+    margin: 12px 0;
+}
+.custom-info .head-par-box{
+    width: 160px;
+    height: 160px;
+    -webkit-border-radius: 80px;
+    -moz-border-radius: 80px;
+    -o-border-radius: 80px;
+    border-radius: 80px;
+    padding: 7px;
+    margin: 0px auto 10px;
+
+    FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#FFE300,endColorStr=#FF2700); /*IE 6 7 8*/
+    background: -ms-linear-gradient(top, #FFE300,  #FF2700);        /* IE 10 */
+    background:-moz-linear-gradient(top, #FFE300, #FF2700);/*锟斤拷锟�/
+    background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#FFE300), to(#FF2700));/*锟饺革拷*/
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFE300), to(#FF2700));      /* Safari 4-5, Chrome 1-9*/
+    background: -webkit-linear-gradient(top, #FFE300, #FF2700);   /*Safari5.1 Chrome 10+*/
+    background: -o-linear-gradient(top, #FFE300, #FF2700);  /*Opera 11.10+*/
+}
+.custom-info .head-sun-box{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    -webkit-border-radius: 72px;
+    -moz-border-radius: 72px;
+    -o-border-radius: 72px;
+    border-radius: 72px;
+    background: #fff;
+    padding: 10px 0;
+
+}
+.custom-info .head-pic-box{
+    width: 74px;
+    height: 74px;
+    overflow: hidden;
+    -webkit-border-radius: 37px;
+    -moz-border-radius: 37px;
+    -o-border-radius: 37px;
+    border-radius: 37px;
+    margin: 0 auto;
+}
+.custom-info .custom-num{
+    line-height: 18px;
+    margin-top: 8px;
+}
+.custom-info .custom-num>p{
+    line-height: 22px;
+}
+.custom-info .custom-info-text{
+    width: 100%;
+    line-height: 22px;
+}
+
+.custom-info .level-star{
+    padding-right: 15px;
+}
+.custom-info .pad-left{
+    padding-left: 8px;
+}
+.custom-info .text{
+    display: inline-block;
+    text-align: center;
+    padding: 0px;
+}
+.custom-info .custom-contact-info{
+    margin: 13px 0 12px;
+}
+.custom-info .custom-contact-info li{
+    line-height: 35px;
+    padding: 0px;
+}
+.custom-info .custom-contact-info .fa{
+    color: #A0A0A0;
+    display: inline-block;
+    width: 30px;
+    border-right: 1px solid #A0A0A0;
+    margin-left: 20%;
+}
+.custom-info .custom-contact-info .custom-contact-text{
+    padding-left: 5px;
+}
+.custom-info .custom-label-info{
+    margin: 30px 0 10px;
+}
+.custom-info .custom-sundry-info{
+    padding: 0px;
+}
+.custom-info .custom-sundry-info p{
+	height: 17px;
+    margin-top: 8px;
+}
+.custom-info .info-highest-one{
+    padding: 18px 7px;
+}
+
+.custom-info .goods-info-one .fa{
+    font-size: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+.custom-info .more-phone-btn:hover{
+    cursor: pointer;
+    color: #ff0000;
+}
+/*  鎴夸骇璧勬枡淇℃伅  */
+.estate-address>div{
+    padding-left: 6px;
+    padding-right: 6px;
+    margin-top: 15px;
+}
+.estate-address .inputs {
+    width: auto;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.estate-address .short-input{
+    width: 100px;
+}
+.c-main-text .loan-info-one{
+    display: none;
+}
+
+/*  鏉ョ數璁板綍  */
+.c-main-text .query-info>div{
+    font-size: 15px;
+    padding: 0 3px;
+    margin: 5px 0;
+}
+.c-main-text .query-info>.col-lg-4{
+    width: 280px;
+}
+
+.query-info .select-choose{
+    width: 170px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.query-info .input-time{
+    width: 170px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.query-info .input-text{
+    width: 240px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.query-info .btns{
+    outline: none;
+    padding: 4px 20px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    margin-left: 6px;
+}
+.query-info .btns:hover{
+    background: #F08300;
+    color: #fff;
+}
+
+.c-main-text .custom-tab-info{
+    width: 100%;
+    padding: 6px 16px;
+}

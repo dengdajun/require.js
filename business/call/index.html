@@ -1,0 +1,127 @@
+<style type="text/css" media="screen">
+	#incoming_call a {color:#FF0;border:solid 1px #FF0;text-decoration:none}
+	#ola_functions {padding:5px;}
+	#ola_functions.unready{background-color:grey}
+	#ola_functions.ready{background-color:green}
+	#ola_functions.acw{background-color:yellow}
+	#ola_functions.busy{background-color:red}
+	#ola_functions.logout{background-color:white}
+</style>
+
+
+<script language="javaScript" src="jquery-1.7.1.min.js"></script>
+<script language="javaScript" src="ola.js"></script>
+<script language="javaScript" src="socket.io.js"></script>
+<script language="javaScript" src="jquery-ui-1.8.16.custom.min.js"></script>
+<script language="javaScript" src="jquery.ui.datepicker-zh.js"></script>
+
+<script type="text/javascript">
+
+	var socket;
+	var ola_queue = 'default';
+	var ola_extn = '1100';
+  var call_id="";
+	
+	function init() {
+		var options = {port: 7878,transports: ['websocket', 'flashsocket']};
+		socket = new ola.Socket('114.55.4.247', options);
+
+		socket.on('message', function(data){
+			call_id=data.call_id;
+			
+			if (data.event_type == "agent_state") { // 如果是坐席状态
+				$('#agent_state').html(data.state);
+				$('#ola_functions').attr("class", data.state);
+				if (data.state == "busy") {       // 坐席状态是忙
+					$('#agent_state').append(" (" + data.private_data + ")");
+
+					if (data.private_data == "ring") {  //坐席的子状态是振铃
+						$('#caller_id').html(data.other_dn);
+						$('#dest_number').html(data.dnis);
+						$('#incoming_call').css("background-color", "blue");
+						$('#incoming_call').show();
+						
+					} else if (data.private_data == "answered") { //坐席的子状态是接通
+						$('#incoming_call').css("background-color", "red");
+						$('#transfer_button').show();
+					}
+				} else if (data.old_state == "busy") {   //坐席的旧状态是忙
+					$('#incoming_call').hide();
+					$('#external_api_page').hide();
+					$('#transfer_button').hide();
+				}
+			} else if (data.event_type == "agent_caller_state") {    //如果是客户状态
+				if (data.action == "in") {
+					$('#caller_queue').append(
+						" <a id='" + data.caller.uuid +
+							"' href='#' onclick=\"take_call('" +
+							data.caller.uuid + "');return false;\">" + data.caller.cid_number +"</a>");
+				} else {
+					$("#" + data.caller.uuid).remove();
+				}
+			} else if (data.event_type == "command_reply") {   // 如果是命令执行状态
+				$('#agent_state').html(data.state);
+				$('#ola_functions').attr("class", data.state);
+			}
+		});
+		socket.on('connect', function(){   //websocket 连上时订阅消息
+			$('#status').html("Connected").css("color", "green");
+			socket.subscribe('ola.queue.' + ola_queue + '.' +  ola_extn);
+			socket.subscribe('ola.caller.' +  ola_extn);
+			socket.get_agent_state(ola_extn);
+		});
+
+		socket.on('disconnect', function(){
+			$('#status').html("Disconnected").css("color", "red");
+		});
+
+	}
+
+	$(document).ready(function()
+	{
+		init();
+		socket.connect();
+	});
+
+	function login() {
+		socket.login(ola_queue, ola_extn, {type: "onhook"});
+	}
+
+	function take_call(uuid) {
+		socket.take_call(ola_extn, uuid);
+	}
+	
+function trans_phone()
+{
+	var num=$("#mon_nbr").val()+"";
+	socket.transfer(ola_extn,num);
+}
+
+function dial()
+{
+	var num=$("#dest").val()+"";
+	socket.dial(ola_extn, num)
+}
+
+</script>
+
+<div id="ola_functions">
+
+	<input type="button" name="k7" value="Login" id="k7" onclick="login()">
+	<input type="button" name="k7" value="Logout" id="k7" onclick="socket.logout(ola_extn)">
+	<input type="button" name="k7" value="Go Ready" id="k7" onclick="socket.go_ready(ola_extn)">
+	<input type="button" name="k7" value="Go Break" id="k7" onclick="socket.go_break(ola_extn)">
+	<input type="button" name="some_name" value="Dial" id="some_name" onclick="dial()">
+	<input type="text" name="dest" value="15828688702" id="dest">
+	<input type="button" name="Monitor" value="Monitor" id="Monitor" onclick="socket.monitor(ola_extn, $('#mon_nbr').val())">
+	<input type="text" name="mon_nbr" value="9002" id="mon_nbr">
+	<input type="button" name="Unmonitor" value="Unmonitor" id="Unmonitor" onclick="socket.unmonitor(ola_extn)">
+	<input type="button" name="three_way" value="three_way" id="three_way" onclick="socket.three_way($('#mon_nbr').val(),ola_extn)">
+	<input type="button" name="trans" value="trans" id="trans" onclick="trans_phone()">
+	<input type="button" name="hold" value="hold" id="k7" onclick="socket.hold(ola_extn)">
+	<input type="button" name="unhold" value="unhold" id="k7" onclick="socket.unhold(ola_extn)">
+	
+
+</div>
+</div>
+

@@ -1,0 +1,337 @@
+body,div,ul,li,p,span,i,input,label,a{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+.color-white{
+    color: #fff;
+}
+.color-red{
+    color: #D40000;
+}
+.color-green{
+    color: #22ac38;
+}
+.color-yellow{
+    color: #F08300;
+}
+.color-gray{
+    color: #949494;
+}
+.color-tblue{
+    color: #00B7EE;
+}
+.bg-red{
+    background: #D40000;
+}
+.bg-green{
+    background: #22ac38;
+}
+.bg-yellow{
+    background: #F08300;
+}
+.bg-tblue{
+    background: #00B7EE;
+}
+.bg-blue{
+    background: #00479D;
+}
+.bg-violet{
+    background: #920783;
+}
+.bg-black{
+    background: #000;
+}
+.border{
+    border: 1px solid #C9CACA;
+}
+.border-red{
+    border: 1px solid #D40000;
+}
+.border-green{
+    border: 1px solid #22ac38;
+}
+.border-yellow{
+    border: 1px solid #F08300;
+}
+.border-tblue{
+    border: 1px solid #00B7EE;
+}
+.float-left{
+    float: left;
+}
+.float-right{
+    float: right;
+}
+.clear{
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+.text-align{
+    text-align: center;
+}
+
+/* 更多电话弹框 */
+.more-phone{
+    position: absolute;
+    background: #fff;
+    z-index: 999;
+    right: 0px;
+    margin-top: 33px;
+    padding: 15px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    display: none;
+}
+.more-phone:before{
+    content: " ";
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 14px;
+    height: 14px;
+    border: #bcbec2 solid 1px;
+    border-left: 0;
+    border-bottom: 0;
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    background: #fff;
+}
+.more-phone>span{
+    display: block;
+    line-height: 28px;
+}
+
+/* 覆盖弹框 */
+/*.cover{*/
+    /*width: 100%;*/
+    /*height: 0;*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*overflow: hidden;*/
+/*}*/
+/*.cover .cover-box{*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*background: #000;*/
+    /*ilter:alpha(opacity=30);*/
+    /*-moz-opacity:0.3;*/
+    /*-khtml-opacity: 0.3;*/
+    /*opacity: 0.3;*/
+/*}*/
+.add-box{
+    width: 360px;
+    height: 0px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -210px;
+    margin-top: -130px;
+    background: #fff;
+    border: 1px solid #999;
+    display: none;
+}
+.add-box .add-tit{
+    width: 100%;
+    padding: 5px 12px;
+    color: #fff;
+}
+.add-box .add-tit>span{
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+}
+.add-box .add-tit .float-right{
+    font-size: 20px;
+    vertical-align: middle;
+}
+.add-box .add-tit .float-right:hover{
+    color: #666;
+    cursor: pointer;
+}
+.add-box .add-text{
+    width: 100%;
+    padding: 20px;
+}
+.add-box .add-text p{
+    margin: 20px 0;
+    text-align: center;
+}
+.add-box .add-text .inputs{
+    width: 180px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.add-box .add-btn{
+    width: 100%;
+    text-align: center;
+}
+.add-box .add-btn .btns{
+    padding: 4px 20px;
+    margin: 0 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    outline: none;
+}
+.add-box .add-btn .btns:hover{
+     background: #F08300;
+     color: #fff;
+ }
+.manage-container{
+    line-height: normal;
+}
+
+/* 左侧导航框 */
+.manage-container .left-nav-box{
+    float: left;
+    height: 100%;
+    background: #DCDDDD;
+}
+/* 左侧父级导航 */
+.manage-container .left-nav-parent{
+    float: left;
+}
+/* 右侧主体内容 */
+.manage-container .right-content-box{
+    width: 100%;
+    float: left;
+}
+
+/* 右侧内容 */
+.manage-content .content-text{
+    margin: 15px 12px 0px;
+}
+.manage-content .container-fluid{
+    padding: 0px;
+}
+.content-text .c-nav{
+    width: 100%;
+    height: 36px;
+    border-bottom: 1px solid #C9CACA;
+}
+.content-text .c-nav li {
+    float: left;
+    border-top: 1px solid #C9CACA;
+    border-right: 1px solid #C9CACA;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -o-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+}
+.content-text .c-nav li:first-child{
+    border-left: 1px solid #C9CACA;
+}
+.content-text .c-nav li:hover{
+    cursor: default;
+}
+.content-text .c-nav li span{
+    display: inline-block;
+    height: 34px;
+    font-size: 14px;
+    color: #939393;
+    line-height: 34px;
+    text-align: center;
+    background: #fff;
+    padding: 0 18px;
+}
+.content-text .c-nav li.active span{
+    color: #333;
+    height: 35px;
+    background: #f0f0f0;
+}
+.content-text .c-main-text{
+    width: 100%;
+    background: #f0f0f0;
+    border-left: 1px solid #C9CACA;
+    border-right: 1px solid #C9CACA;
+    border-bottom: 1px solid #C9CACA;
+    padding: 12px;
+}
+
+.c-main-text .goods-info-one{
+    background: #fff;
+    padding: 0 0 4px;
+}
+.c-main-text .info-tit{
+    width: 100%;
+    line-height: 25px;
+    border-bottom: 2px solid #D0D0D0;
+    margin: 0px;
+    padding: 5px 8px 5px 15px;
+}
+.c-main-text .info-text{
+	width: 100%;
+/*     height: 82%; */
+    padding: 10px 5px 6px;
+}
+.c-main-text .one-info{
+    padding: 0px 0.5%;
+}
+.c-main-text .two-info{
+    padding: 0px 2%;
+}
+/* .c-main-text .four-info{ */
+/*     padding: 0px 1.2%; */
+/* } */
+.c-main-text .two-info{
+    padding: 0px 2%;
+}
+.c-main-text .four-info{
+    padding: 0px 1.2%;
+}
+.c-main-text .info-one{
+    width: 100%;
+    line-height: 22px;
+    background: #fff;
+    margin: 5px 0;
+    padding: 5px 2.5%;
+}
+.c-main-text .label-info-one{
+    width: 100%;
+    line-height: 32px;
+    background: #fff;
+    margin: 5px 0;
+}
+.c-main-text .label-padding{
+    padding: 0px 2.5%;
+}
+.c-main-text .full-width{
+    width: 100%;
+}
+
+.c-main-text .loan-info-box{
+    width: 100%;
+    display: none;
+}
+.c-main-text .loan-info-box:first-child{
+    display: block;
+}
+/*  逾期信息  */
+.c-main-text .late-table{
+    border: 1px solid #bbbcbc;
+    background: #fff;
+    text-align: center;
+    margin: 10px 0;
+}
+.c-main-text .late-table th{
+    border-left: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+}
+.c-main-text .late-table th:first-child{
+    border-left: 0px;
+}

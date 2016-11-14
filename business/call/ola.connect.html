@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ola connector</title>
+<script language="javaScript" src="jquery-1.7.1.min.js"></script>
+<script language="javaScript" src="ola.js"></script>
+<script language="javaScript" src="socket.io.js"></script>
+<script language="javaScript" src="jquery-ui-1.8.16.custom.min.js"></script>
+<!-- <script language="javaScript" src="jquery.ui.datepicker-zh.js"></script> -->
+<script type="text/javascript">
+( function() {
+	//============================
+	// 电话接口封装
+	// @author hemf
+	// @date 2016.03.15
+	//============================
+	
+	//公共参数
+	var defaults = {
+		server: "114.55.4.247", //服务地址
+		port: 7878, //端口号
+		transports: ['websocket', 'flashsocket'], //传输协议
+		ola_queue: "100162", //消息队列 消息渠道
+		ola_extn: "1100", //分机号
+		params: {type: "onhook"} //其他参数
+	};
+	
+	var stat = "";
+	/**
+	 * OLA构造函数
+	 * @param options {object:map} 参数 参照defaults
+	 */
+	function OLA( options ) {
+		var olaObj = this;
+		this.socket = false;
+		
+		var opts = this.opts = $.extend( true, {}, defaults, options );
+		console.log(opts);
+		//创建连接
+		var socket = this.socket = new ola.Socket( opts.server, {
+			port: opts.port,
+			transports: opts.transports
+		} );
+		
+		//监听消息
+		this.socket.on( "message", function( data ) {
+			if (data.event_type == "agent_state") {
+				stat = data.state;
+				if (data.state == "busy") { 
+					if (data.private_data == "ring") { //来电
+// 						if ( confirm( "是否结束：分机号[ "+ opts.ola_extn +" ]占线中(报铃中)...") ) {
+// 							olaObj.logout();
+// 						};
+					} else if(data.private_data == "calling") {//去电
+// 						if ( confirm( "是否结束：分机号[ "+ opts.ola_extn +" ]占线中(拨打中)...") ) {
+// 							olaObj.logout();
+// 						};
+						parent.MsgBox.alert("呼叫成功");
+					} else  if(data.private_data == "answered") {//接听
+					}
+				} else if (data.old_state == "busy") {   
+					//坐席的旧状态是忙
+					socket.go_ready( opts.ola_extn );
+				} 
+			}
+			if ( window.console && window.console.log ) {
+				window.console.log(data);
+			}
+		} );
+		
+		//监听连接 创建订阅 刷新分机状态
+		this.socket.on( "connect", function() {
+// 			alert(opts.ola_queue);
+			socket.subscribe('ola.queue.' + opts.ola_queue + '.' +  opts.ola_extn);
+			socket.subscribe('ola.caller.' +  opts.ola_extn);
+			socket.get_agent_state(opts.ola_extn);
+			socket.logout( opts.ola_extn );
+		} );
+		
+		//监听断开
+		this.socket.on( "disconnect", function() {
+			parent.MsgBox.alert("电话系统已断开连接，如需拨打电话，请重新登陆");
+		} );
+		
+		this.socket.connect();
+		
+	};
+	
+	/**
+	 * 注销电话接口
+	 */
+	OLA.prototype.logout = function() {
+		var opts = this.opts;
+		this.socket.logout( opts.ola_extn );
+	};
+	
+	
+	/**
+	 * 拨打接口
+	 * @param phone 电话号码
+	 */
+	OLA.prototype.call = function( phone ) {
+		var opts = this.opts;
+// 		this.socket.unhold( opts.ola_extn );
+// 		this.socket.go_break( opts.ola_extn );
+		this.socket.logout( opts.ola_extn );
+			this.socket.login( opts.ola_queue, opts.ola_extn, opts.params );
+			this.socket.go_ready( opts.ola_extn );
+// 		if(stat == "logout" || stat == ""){
+// 		}
+		this.socket.dial( opts.ola_extn, phone );
+	};
+	
+	/**
+	 * 初始化
+	 */
+	OLA.prototype.init = function() {
+		var opts = this.opts;
+		this.socket.login( opts.ola_queue, opts.ola_extn, opts.params );
+		this.socket.go_ready( opts.ola_extn );
+	};
+	
+	window.onbeforeunload = function() {
+		var opts = this.opts;
+		this.socket.logout(opts.ola_extn);
+	} ;	
+	window.OLA = OLA;
+} )();
+</script>
+</head>
+<body>
+
+</body>
+</html>

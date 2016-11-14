@@ -1,0 +1,223 @@
+/*  贷款基本信息  */
+.c-main-text .user-info-row{
+    width: 100%;
+    background: #fff;
+}
+.c-main-text .user-info-all{
+    width: 100%;
+    padding: 12px 0;
+}
+.c-main-text .user-info-lr{
+    padding: 0px;
+}
+.c-main-text .user-info-one{
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.c-main-text .user-info-one p{
+    line-height: 12px;
+    margin-top: 12px;
+}
+.c-main-text .user-info-one p:first-child{
+    margin-top: 0px;
+}
+.c-main-text .user-pic{
+    width: 74px;
+    height: 74px;
+    -webkit-border-radius: 37px;
+    -moz-border-radius: 37px;
+    -o-border-radius: 37px;
+    border-radius: 37px;
+    overflow: hidden;
+    margin: 0 12px;
+}
+.c-main-text .user-name{
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+.c-main-text .user-info-padding{
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 8px;
+}
+.c-main-text .user-info-icon{
+    font-size: 30px;
+    color: #929191;
+    padding-right: 7px;
+    line-height: 32px;
+}
+.c-main-text .handle-time{
+    border-left: 2px solid #9FA0A0;
+    border-right: 2px solid #9FA0A0;
+}
+.c-main-text .handle-time,.c-main-text .payment-time,.c-main-text .handle-place{
+    padding: 0 7px;
+}
+.c-main-text .handle-place{
+    border-left: 2px solid #9FA0A0;
+}
+.c-main-text .state-text{
+    display: inline-block;
+    width: 60px;
+}
+.c-main-text .state-line{
+    display: inline-block;
+    width: 72px;
+    height: 12px;
+    border-radius: 8px;
+}
+.c-main-text .loan-info-row{
+    width: 100%;
+    padding: 8px 0;
+    background: #fff;
+    margin-top: 15px;
+}
+.c-main-text .loan-info-row li{
+       height: 50px;
+    text-align: center;
+    margin: 7px 0;
+}
+.loan-info-row li > div{
+    padding: 0px;
+}
+.loan-info-row li .loan-info-icon{
+    height: 100%;
+    line-height: 50px;
+}
+.loan-info-row li .loan-info-text{
+    height: 100%;
+    line-height: 43px;
+    border-top: 1px solid #C9CACA;
+    border-right: 1px solid #C9CACA;
+    border-bottom: 1px solid #C9CACA;
+    padding: 3px 5px;
+}
+
+.c-main-text .goods-info-row{
+    width: 100%;
+    margin-top: 15px;
+    background: #fff;
+    padding: 7px 6px;
+}
+.c-main-text .goods-info-row li{
+    padding-right: 6px;
+    padding-left: 6px;
+    margin: 8px 0;
+}
+
+.goods-info-row li .more-info-row a{
+    color: #777;
+}
+.goods-info-row li .more-info-row a:hover{
+    text-decoration: underline;
+    color: #ff0000;
+}
+.goods-info-row li .info-one-type{
+    display: block;
+    width: 40px;
+}
+.goods-info-row li .info-one-text{
+    display: block;
+    width: 80%;
+}
+.goods-info-row li .level-star .fa{
+    font-size: 16px;
+    margin-right: 5px;
+}
+/*  资方信息  */
+.c-main-text .ratio-info{
+    width: 100%;
+    background: #fff;
+    margin: 5px 0;
+}
+.ratio-info .ratio-info-tit{
+    width: 100%;
+    padding: 7px 2.5%;
+    border-bottom: 1px solid #aeafaf;
+}
+
+/*  附件  */
+.c-main-text .doc-down{
+    width: 100%;
+}
+.c-main-text .doc-down li{
+    margin: 20px 0;
+    padding: 0 25px;
+}
+.c-main-text .doc-down li .doc-box{
+    width: 100%;
+    border: 2px solid #fff;
+    background: #fff;
+}
+.c-main-text .doc-down li .doc-box img{
+	width: 100%;
+	height: 100%;
+}
+.c-main-text .doc-down li .text-align{
+    width: 100%;
+    margin-top: 20px;
+}
+.c-main-text .doc-down li .border-red{
+    background: #fff;
+    padding: 5px 30px;
+    outline: none;
+}
+.c-main-text .doc-down li .border-red:hover{
+    color: #fff;
+    background: #D40000;
+}
+/*  �����Ϣ  */
+.c-main-text .loan-info-row .loan-info-text span{
+    display: block;
+    font-size: 15px;
+    color: #595757;
+    margin: 9px 0px;
+}
+.c-main-text .loan-info-row .progress{
+    width: 59%;
+    height: 12px;
+    overflow: hidden;
+    background: #A0A0A0;
+    border-radius: 5px;
+    margin: 15px 5px;
+}
+.c-main-text .data-ana{
+    background: #fff;
+    margin: 0px 15px;
+}
+.c-main-text .data-ana .data-ana-tit{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    padding-left: 25px;
+    margin: 0px;
+}
+.c-main-text .data-ana .check-row{
+    border-top: 1px solid #bbbcbc;
+    border-left: 1px solid #bbbcbc;
+    border-right: 1px solid #bbbcbc;
+    padding: 25px;
+    text-align: right;
+}
+.c-main-text .data-ana .check-row a{
+    display: inline-block;
+    color: #fff;
+    font-size: 16px;
+    background: #BFBFBF;
+    padding: 9px 20px;
+    margin-left: 20px;
+}
+.c-main-text .data-ana .check-row a .fa{
+    font-size: 23px;
+    vertical-align: middle;
+}
+.c-main-text .data-ana .check-row a:hover{
+    text-decoration: none;
+    background: #F08300;
+}
+.c-main-text .data-ana .late-table th{
+    border-left: 1px solid #bbbcbc;
+}

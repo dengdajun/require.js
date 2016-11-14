@@ -1,0 +1,466 @@
+function doCallOnRespond(AEvent,AMessage,ACode,ATargetStaffID){
+	cCcommonTool.DebugLog("javascript doCallOnRespond 开始。");
+	cCcommonTool.DebugLog("AEvent="+AEvent+";AMessage="+AMessage+";ACode="+ACode+";ATargetStaffID="+ATargetStaffID);
+	if(AEvent=='Register'){
+		ocxLock = false;
+	}
+	if(ACode==0){
+		switch(AEvent){
+			case 'Register':{
+				cCcommonTool.setIsRegcti(true);
+				if(needLoginDelay){
+					var ret1 = cCcommonTool.Login();
+					cCcommonTool.DebugLog("javascript  坐席签入结束 ret1：" + ret1);
+					needLoginDelay =false;	
+				}
+			}
+			break;
+			case 'UnRegister':{
+				cCcommonTool.setIsRegcti(false);
+			}
+			break;
+			case 'Login':{				
+				//签入成功数据插入，更改坐席状态信息
+				//similarMSNPop('签入成功！');
+				
+			}
+			break;
+			case 'Logout':{
+				//签出成功数据插入，更改坐席状态信息
+				//singnInUpdate();
+			}
+			break;
+			case 'Pause':{
+				//更改坐席状态信息
+				similarMSNPop('示忙成功！');
+			}
+			break;
+			case 'Ready':{
+				//更改坐席状态信息
+				clearAllTimer_0();
+				similarMSNPop('示闲成功！');
+			}
+			break;
+			case 'Lock':{
+				//similarMSNPop('话机被锁定，请稍等！');
+			}
+			break;
+			case 'Release':{
+				user_hung = 0;
+			}
+			break;
+			case 'WrkLock':{
+				//更改坐席状态信息
+			}
+			break;
+			case 'WrkRelease':{
+				//更改坐席状态信息
+			}
+			break;
+			case 'Make':{
+				buttonType("K021");
+				ChangeContactingMsg(6);
+			}
+			break;
+			case 'ConferenceToIVR':{
+				if(specialCode=='Verified'){
+					//进入话后整理状态
+					ChangeContactingMsg(11);
+					buttonType("K105");
+					chgStatus(10,'三方态');		
+				}
+			}
+			break;
+		}
+	}
+	else{
+			
+			cCcommonTool.ErrorLog("AEvent="+AEvent+";AMessage="+AMessage+";ACode="+ACode+";ATargetStaffID="+ATargetStaffID);
+			if(AEvent=='ClearConnection'&&ACode=='202'){
+				return;	
+			}
+			similarMSNPop("<font color=red>调用方法"+AEvent+"错误!</font><br>" +
+					"errCode:&nbsp;" +ACode+"<br>"+
+					"message:&nbsp;"+AMessage);
+	}
+	cCcommonTool.DebugLog("javascript doCallOnRespond 结束");
+}
+function doCallOnReport(AEvent,ACauseInfo,AMessage,ACallInfo){
+	cCcommonTool.DebugLog("javascript doCallOnReport 开始。");
+	cCcommonTool.DebugLog("AEvent="+AEvent+";ACauseInfo="+ACauseInfo+";AMessage="+AMessage);
+	var callInfoArr = new VBArray(ACallInfo).toArray();  
+	cCcommonTool.setLastCallInfo(callInfoArr);
+	var outPut = '';
+	for(i=0;i<callInfoArr.length;i++){
+		outPut+=i+":"+callInfoArr[i]+";";
+	}
+	cCcommonTool.DebugLog("outPut="+outPut);
+	//提前获取到上一次的状态
+	var lastState = cCcommonTool.getState();
+	
+	//全局事件区
+	if(checkState(callInfoArr,'0')){
+		//签出态,控件失去正确的话务控制
+		if(cCcommonTool.getIsSignIn()){
+			singnInUpdate();
+			//if(intervalScanCom!=null){
+			//	clearInterval(intervalScanCom);
+			//}
+		}
+		chgStatus(-1,'签出');
+		cCcommonTool.setIsSignIn(false);
+		buttonType("K006");
+		if(cCcommonTool.getShowBar()){
+			cCcommonTool.setShowBar(false);
+			$('#callSearch').css('display','none');
+			$('.r2 .frame-tool').animate({width:'220px'},'slow');
+		}
+		cCcommonTool.extendFlag = false;
+		specialCode = '';
+		if(lastState==1||lastState==6||lastState==4){
+			clrCallTimer();
+			sK013insert();
+			succ_flag_0 = false;
+			is_showDialog_ = false;
+		}
+		return;
+	}else{
+		if(!cCcommonTool.getIsSignIn()){
+			singnInInsert();
+			//if(intervalScanCom!=null){
+			//	clearInterval(intervalScanCom);
+			//}
+			//intervalScanCom = setInterval("scanCom()",500000);
+		}
+		cCcommonTool.setIsSignIn(true);
+		if(AEvent=='ConnectionClear'&&!(checkState(callInfoArr,'--------1'))){
+			if(ACauseInfo==cCcommonTool.exCallId){
+				cCcommonTool.extendFlag = false;
+			}
+			if(ACauseInfo!=cCcommonTool.exCallId&&ACauseInfo.indexOf('490')!=0){
+				similarMSNPop('通话释放！');
+			}
+			if(ACauseInfo.indexOf('490')!=0){
+				specialCode = '';
+			}
+	  }
+	  if(checkState(callInfoArr,'-0')){
+	  	specialCode = '';
+	  }
+	  if(AEvent=='IVREvent'){
+			if(ACauseInfo=='Verified'){
+				specialCode = '';
+			}
+			if(ACauseInfo=='Confirmed'){
+				specialCode = '';
+			}
+		}
+		if(checkState(callInfoArr,'-1--1')){
+			//进入通话保持态
+			ChangeContactingMsg(4);
+			buttonType("K026");
+			chgStatus(4,'通话保持');
+			
+		}else if(checkState(callInfoArr,'-0------01')){
+			//进入话后整理状态
+			ChangeContactingMsg(9);
+			buttonType("K009");
+			chgStatus(9,'整理态');
+			
+		}else if(specialCode=='Confirmed'){
+			//进入话后整理状态
+			ChangeContactingMsg(10);
+			buttonType("K105");
+			chgStatus(10,'三方态');		
+		}else if(specialCode=='Verified'){
+			//进入话后整理状态
+			ChangeContactingMsg(11);
+			buttonType("K105");
+			chgStatus(10,'三方态');		
+		}else if(specialCode=='Play'){
+			//进入话后整理状态
+			ChangeContactingMsg(12);
+			buttonType("K105");
+			chgStatus(10,'三方态');		
+		}else if(checkState(callInfoArr,'-01')&&(AEvent=='AgentStateChange')){
+			//进入忙状态
+			ChangeContactingMsg(2);
+			buttonType("K004");
+			chgStatus(2,'示忙状态');	
+		}else if(checkState(callInfoArr,'-1')){
+			if(AEvent=='AgentStateChange'||AEvent=='Retrieved'||AEvent=='Established'||AEvent=='ConnectionClear'||AEvent=='IVREvent'){
+				if(callInfoArr[12]!=''&&callInfoArr[11]!=''){
+					//进入通话状态
+					ChangeContactingMsg(1);
+					buttonType("K021");
+					chgStatus(1,'通话状态');
+				}else{
+					
+				}
+			}
+			
+		}else if(checkState(callInfoArr,'---1')){
+			ChangeContactingMsg(3);
+			//进入锁定态
+			buttonType("K102");
+			chgStatus(3,'CTI锁定');
+			
+		}else if(checkState(callInfoArr,'10000----0')){
+			ChangeContactingMsg(0);
+			buttonType("K005");
+			
+			chgStatus(0,'空闲态');
+			specialCode = '';
+		}
+	}
+	if(AEvent=='AgentStateChange'){
+		if(ACauseInfo=='NetError'){
+			similarMSNPop('网络错误,请检查网络连通情况！');
+		}
+	}else if(AEvent=='NewCall'){
+		//话路准备，不做其他操作
+		
+	}else if((AEvent=='Delivered'||AEvent=='Originated')){
+		//振铃事件
+		if(!(checkState(callInfoArr,'-------1'))&&!(checkState(callInfoArr,'--------1'))){
+			cCcommonTool.setState(6);
+			ChangeContactingMsg(6);
+			//初始化记录dcallcall
+			if(callInfoArr[12]=='1009'){
+				specialCode = 'Play';
+			}
+			if(lastUcid != callInfoArr[10]&&callInfoArr[10]!='00000000000000000000'&&specialCode==''){
+				lastUcid = callInfoArr[10];
+				var user_phone = '';
+				if(callInfoArr[6]){
+					document.getElementById('call_type').value = '7';
+					user_phone = cCcommonTool.getCalledNumber();
+				}else{
+					document.getElementById('call_type').value = '0';
+					user_phone = cCcommonTool.getCallingNumber();
+				}
+				getContactId(user_phone);
+				specialCode = '';
+				callIsUpdateCall = false;
+				nextPhoneId = '';
+				comering(callInfoArr);
+				succ_flag_0 = false;
+				is_showDialog_ = false;
+				is_showUserTab = false;
+				cCcommonTool.setVerified(false);				
+				document.getElementById("acceptPhoneNo").value = user_phone;
+				if(!isOpenPhoneTabByNum(user_phone)){
+					is_showUserTab = true;
+				}
+				if(/^1\d{10}$/.test(user_phone)){
+					inputcall(user_phone);
+				}
+				cCcommonTool.baseCallId = ACauseInfo;				  
+				cCcommonTool.extendFlag = false;
+			}
+		}else if(cCcommonTool.baseCallId!=ACauseInfo){
+				cCcommonTool.exCallId = ACauseInfo;	
+				cCcommonTool.extendFlag = true;
+		}
+	}else if(AEvent=='Established'){
+		//接通分机
+		if(!checkState(callInfoArr,'-1--1')&&!(checkState(callInfoArr,'-------1'))&&checkState(callInfoArr,'-1')){
+			ChangeContactingMsg(1);
+			if(!is_showDialog_){
+				similarMSNPop('通话成功！');
+				is_showDialog_ = true;
+			}
+			chgStatus(1,'通话状态');
+			//更新dcall成功标志
+			//if(!(outFlag == 3&&callInfoArr[6])&&specialCode==''){
+			//	beginTimeCall();
+			//	oprateDcallcall();
+			//}	
+		}
+		if(!callIsUpdateCall&&checkState(callInfoArr,'-1')){
+				beginTimeCall();
+				succ_flag_0 = true;
+				setTimeout('oprateDcallcall()',800);
+				callIsUpdateCall = true;
+		}
+	}else if(AEvent=='ConnectionClear'&&!(checkState(callInfoArr,'--------1'))){
+
+	}else if(AEvent=='DeleteCall'&&!(checkState(callInfoArr,'-1'))&&!(checkState(callInfoArr,'--------1'))){
+		//挂断分机	
+		if(lastState==1||lastState==6||lastState==4){
+			//dcallcall数据插入
+			if(!(outFlag == 3&&callInfoArr[6])&&specialCode==''){
+				lastUcid = '';
+				clrCallTimer();
+				sK013insert();
+				succ_flag_0 = false;
+				is_showDialog_ = false;
+				is_showUserTab = false;
+				if(outFlag!=3){
+					selectFailReason();
+				}
+			}
+			
+		}
+		//进入整理态
+		if(lastState!=4&&!(checkState(callInfoArr,'--1'))){
+			enterRelax();	
+		}
+		
+	}else if(AEvent=='Held'){
+		
+	}else if(AEvent=='Retrieved'){
+		
+	}else if(AEvent=='IVREvent'){
+		if(ACauseInfo=='Verified'){
+			specialCode = '';
+			if(AMessage==''||AMessage==null){
+				cCcommonTool.setVerified(false);
+				similarMSNPop('密码验证失败！');
+			}else{				
+				cCcommonTool.setVerified(true);
+				similarMSNPop('密码验证成功！');
+				doAtferCheck();
+			}
+		}
+		if(ACauseInfo=='Confirmed'){
+			specialCode = '';
+			var aparams = AMessage.split('|');
+			if(aparams.length==2){
+				var button_accept = aparams[1];
+				if(button_accept=='1'){
+					cCcommonTool.setVerified(true);
+					similarMSNPop('二次确认成功！');
+					doAtferCheck();
+				}else{					
+					cCcommonTool.setVerified(false);				
+					similarMSNPop('二次确认失败！');
+				}
+			}
+		}
+	}
+	//add liujcc
+		$('#callSearch').css('display','block');
+		$('.r2 .frame-tool').animate({width:'660px'},'slow');
+	if(!cCcommonTool.getShowBar()){
+		cCcommonTool.setShowBar(true);
+		$('#callSearch').css('display','block');
+		$('.r2 .frame-tool').animate({width:'660px'},'slow');
+	}
+	cCcommonTool.DebugLog("javascript doCallOnReport 结束");
+}
+//判断当前话务状态跟传入的字符串是否匹配,字符串每一位代表状态数组中的一项，1代表true，0代表false,-代表不比较
+function checkState(stateArr,stateStr){
+	var res = true;
+	for(i=0;i<stateStr.length;i++){
+		var step = stateStr.charAt(i);
+		if(step=='1'){
+			if(stateArr[i]==false){
+				return false;
+			}
+		}else if(step=='0'){
+			if(stateArr[i]==true){
+				return false;
+			}
+		}
+	}
+	return res;
+}
+function enterRelax(){
+	var ret = cCcommonTool.WrkLock(30);
+	
+	if(ret){
+		if(relaxTimer!=null){
+			clearTimeout(relaxTimer);
+		}
+		relaxTimer = setTimeout('endRelax()',relaxTime*1000);
+	}
+}
+function endRelax(){
+	if(cCcommonTool.getState()==9){
+		cCcommonTool.WrkRelease();
+		if(isOpenPhoneTab()){
+			if(cCcommonTool.lastCallInfo!=null&&cCcommonTool.lastCallInfo[2]==true){
+				return;	
+			}
+			var ret = cCcommonTool.Pausee();
+			if(ret){
+				if(busyAlertTimer!=null){
+					clearInterval(busyAlertTimer);
+					busyAlertCount = 0;
+			  }
+				busyAlertTimer = setInterval(busyAlertInfo,busyAlertJG*1000);
+				if(autoEndBusyTimer!=null){
+					clearInterval(autoEndBusyTimer);
+			  }
+				autoEndBusyTimer = setTimeout('endBusy()',autoEndBusyTime*1000);
+			}
+		}
+	}
+	relaxTimer = null;
+}
+function isOpenPhoneTab(){
+	var objIframe = g("tabtag").getElementsByTagName("li");
+			for(var i=0;i<objIframe.length;i++){
+ 
+				var divId = objIframe[i].getAttribute("id");
+				if(/^1\d{10}$/.test(divId))
+				{
+						return true;
+				}
+			}
+	return false;
+}
+function isOpenPhoneTabByNum(phoneNum){
+	var objIframe = g("tabtag").getElementsByTagName("li");
+			for(var i=0;i<objIframe.length;i++){
+ 
+				var divId = objIframe[i].getAttribute("id");
+				if(divId==phoneNum)
+				{
+						return true;
+				}
+			}
+	return false;
+}
+function busyAlertInfo(){
+	busyAlertCount++;
+	var leftTime = autoEndBusyTime-busyAlertCount*busyAlertJG;
+	if(leftTime>0){
+		similarMSNPop('距离自动关闭还有'+leftTime+'秒,请及时完成上次信息保存！');
+  }else{
+			if(busyAlertTimer!=null){
+				clearInterval(busyAlertTimer);
+				busyAlertTimer = null;
+			}
+			busyAlertCount = 0;
+	}
+}
+function endBusy(){		
+		oldRemoveTab(document.getElementById('acceptPhoneNo').value);
+		cCcommonTool.Ready();
+		clearAllTimer_0();
+		destSessionPhone();
+}
+function clearAllTimer_0(){
+	if(busyAlertTimer!=null){
+		clearInterval(busyAlertTimer);
+		busyAlertTimer = null;
+		busyAlertCount = 0;
+	}
+	if(autoEndBusyTimer!=null){
+		clearInterval(autoEndBusyTimer);
+		autoEndBusyTimer = null;
+	}
+	if(relaxTimer!=null){
+		clearTimeout(relaxTimer);
+		relaxTimer = null;
+	}
+	if(autoEndBusyTimer!=null){
+		clearTimeout(autoEndBusyTimer);
+		autoEndBusyTimer = null;
+	}
+}
+function selectFailReason(){
+	window.open("/npage/callbosspage/portal/callResult.jsp","_blank","toolbar=no, location=no, directories=no,status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=yes, top=300,left=350,width=300, height=200");
+}
